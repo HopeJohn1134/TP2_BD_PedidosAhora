@@ -16,7 +16,7 @@ CREATE TABLE Comercio (
     id_comercio INT PRIMARY KEY,
     direccion VARCHAR(100) UNIQUE NOT NULL,
     nombre VARCHAR(50) NOT NULL,
-    telefono VARCHAR(50) NOT NULL,
+    telefono CHAR(15) NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_categoria INT NOT NULL,
     FOREIGN KEY (id_categoria)
@@ -33,7 +33,7 @@ CREATE TABLE Usuario (
     domicilio VARCHAR(100) NOT NULL,
     correo_electronico VARCHAR(100) UNIQUE NOT NULL,
     nombre VARCHAR(50) NOT NULL,
-    telefono VARCHAR(50) NOT NULL,
+    telefono CHAR(15) NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CHECK (correo_electronico LIKE '%_@_%._%'),
     CHECK (telefono REGEXP '^[0-9]{7,15}$')
@@ -103,7 +103,7 @@ CREATE TABLE Pedido (
 
 CREATE TABLE Producto (
     id_producto INT PRIMARY KEY,
-    precio DECIMAL(6 , 2 ) NOT NULL,
+    precio DECIMAL(8 , 2 ) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     id_comercio INT NOT NULL,
     FOREIGN KEY (id_comercio)
