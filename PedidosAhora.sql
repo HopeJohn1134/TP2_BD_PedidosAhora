@@ -3,13 +3,13 @@ USE PedidosAhora;
 
 CREATE TABLE Categoria_comercio (
     id_categoria INT PRIMARY KEY,
-    categoria VARCHAR(20) unique not null
+    categoria VARCHAR(20) UNIQUE NOT NULL
 );
 
-create table Horario (
-	id_horario int primary key,
-    dia_de_semana varchar(10),
-    horario varchar(100) -- agregar check
+CREATE TABLE Horario ( -- OK
+    id_horario INT PRIMARY KEY,
+    dia_de_semana VARCHAR(10),
+    horario VARCHAR(100)
 );
 
 CREATE TABLE Comercio (
@@ -17,12 +17,12 @@ CREATE TABLE Comercio (
     direccion VARCHAR(100) UNIQUE NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     telefono VARCHAR(50) NOT NULL,
-    fecha_alta timestamp default current_timestamp,
+    fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_categoria INT NOT NULL,
     FOREIGN KEY (id_categoria)
         REFERENCES Categoria_comercio (id_categoria),
-    id_horario_atencion Int not null,
-	FOREIGN KEY (id_horario_atencion)
+    id_horario_atencion INT NOT NULL,
+    FOREIGN KEY (id_horario_atencion)
         REFERENCES Horario (id_horario)
 );
 
@@ -30,23 +30,23 @@ CREATE TABLE Usuario (
     id_usuario INT PRIMARY KEY,
     apellido VARCHAR(50) NOT NULL,
     domicilio VARCHAR(100) NOT NULL,
-    correo_electronico VARCHAR(100) UNIQUE NOT NULL, -- agregar check
+    correo_electronico VARCHAR(100) UNIQUE NOT NULL, -- check reg
     nombre VARCHAR(50) NOT NULL,
-    telefono VARCHAR(50) NOT NULL,
-    fecha_alta timestamp default current_timestamp 
+    telefono VARCHAR(50) NOT NULL, -- check 
+    fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Medio_de_Transporte (
     id_transporte INT PRIMARY KEY,
-    tipo VARCHAR(50) unique not NULL
+    tipo VARCHAR(50) UNIQUE NOT NULL
 );
 
-CREATE TABLE Turno (
+CREATE TABLE Turno ( -- revisar con el profe
     id_turno INT PRIMARY KEY,
-    nombre_turno varchar(50) unique not null,
-    hora_inicio TIME NOT NULL,
-    hora_fin TIME NOT NULL, -- check hora fin mayor que hora inicio
-    dia VARCHAR(100) NOT NULL
+    nombre_turno VARCHAR(50) UNIQUE NOT NULL,
+    id_horario INT NOT NULL,
+    FOREIGN KEY (id_horario)
+        REFERENCES Horario (id_horario)
 );
 
 CREATE TABLE Repartidor (
@@ -62,22 +62,31 @@ CREATE TABLE Repartidor (
 );
 
 CREATE TABLE Valoracion (
-    fecha DATE NOT NULL,
-    id_valoracion INT PRIMARY KEY,
+	id_valoracion INT PRIMARY KEY,
+    fecha timestamp DEFAULT CURRENT_TIMESTAMP,
     comentario_comercio TEXT NOT NULL,
-    puntuacion_comercio INT NOT NULL,
-    comentario_repartidor TEXT NOT NULL,
+    puntuacion_comercio INT NOT NULL, -- check valores validos y correccion
+	comentario_repartidor TEXT NOT NULL,
     puntuacion_repartidor INT NOT NULL
 );
 
-CREATE TABLE Pedido (
+Create table Estado
+(
+id_estado int PRIMARY Key,
+tipo varchar(50) unique not null
+);
+
+
+CREATE TABLE Pedido ( --  agregar producto
     id_pedido INT PRIMARY KEY,
-    estado INT NOT NULL,
     domicilio VARCHAR(50) NOT NULL,
     id_comercio INT NOT NULL,
     id_usuario INT NOT NULL,
     id_repartidor INT NOT NULL,
     id_valoracion INT NOT NULL,
+    id_estado INT NOT NULL,
+    FOREIGN KEY (id_estado)
+        REFERENCES Estado (id_estado),
     FOREIGN KEY (id_comercio)
         REFERENCES Comercio (id_comercio),
     FOREIGN KEY (id_usuario)
