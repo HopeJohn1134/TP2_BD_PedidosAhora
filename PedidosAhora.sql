@@ -1,12 +1,12 @@
 CREATE DATABASE PedidosAhora;
 USE PedidosAhora;
-
-CREATE TABLE Categoria_comercio ( -- OK
+-- OK
+CREATE TABLE Categoria_comercio (
     id_categoria INT PRIMARY KEY,
     categoria VARCHAR(20) UNIQUE NOT NULL
 );
-
-CREATE TABLE Horario ( -- OK
+-- OK
+CREATE TABLE Horario (
     id_horario INT PRIMARY KEY,
     dia_de_semana VARCHAR(10),
     horario VARCHAR(100)
@@ -23,25 +23,28 @@ CREATE TABLE Comercio (
         REFERENCES Categoria_comercio (id_categoria),
     id_horario_atencion INT NOT NULL,
     FOREIGN KEY (id_horario_atencion)
-        REFERENCES Horario (id_horario)
+        REFERENCES Horario (id_horario),
+    CHECK (telefono REGEXP '^[0-9]{7,15}$')
 );
 
 CREATE TABLE Usuario (
     id_usuario INT PRIMARY KEY,
     apellido VARCHAR(50) NOT NULL,
     domicilio VARCHAR(100) NOT NULL,
-    correo_electronico VARCHAR(100) UNIQUE NOT NULL, -- check reg
+    correo_electronico VARCHAR(100) UNIQUE NOT NULL,
     nombre VARCHAR(50) NOT NULL,
-    telefono VARCHAR(50) NOT NULL, -- check 
-    fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    telefono VARCHAR(50) NOT NULL,
+    fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CHECK (correo_electronico LIKE '%_@_%._%'),
+    CHECK (telefono REGEXP '^[0-9]{7,15}$')
 );
 
 CREATE TABLE Medio_de_Transporte (
     id_transporte INT PRIMARY KEY,
     tipo VARCHAR(50) UNIQUE NOT NULL
 );
-
-CREATE TABLE Turno ( -- revisar con el profe
+-- revisar con el profe
+CREATE TABLE Turno (
     id_turno INT PRIMARY KEY,
     nombre_turno VARCHAR(50) UNIQUE NOT NULL,
     id_horario INT NOT NULL,
@@ -62,22 +65,23 @@ CREATE TABLE Repartidor (
 );
 
 CREATE TABLE Valoracion (
-	id_valoracion INT PRIMARY KEY,
-    fecha timestamp DEFAULT CURRENT_TIMESTAMP,
+    id_valoracion INT PRIMARY KEY,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     comentario_comercio TEXT NOT NULL,
-    puntuacion_comercio INT NOT NULL, -- check valores validos y correccion
-	comentario_repartidor TEXT NOT NULL,
-    puntuacion_repartidor INT NOT NULL
+    puntuacion_comercio INT NOT NULL,
+    comentario_repartidor TEXT NOT NULL,
+    puntuacion_repartidor INT NOT NULL,
+    CHECK (puntuacion_comercio BETWEEN 0 AND 5),
+    CHECK (puntuacion_repartidor BETWEEN 0 AND 5)
 );
 
-Create table Estado
-(
-id_estado int PRIMARY Key,
-tipo varchar(50) unique not null
+CREATE TABLE Estado (
+    id_estado INT PRIMARY KEY,
+    tipo VARCHAR(50) UNIQUE NOT NULL
 );
 
 
-CREATE TABLE Pedido ( --  agregar producto
+CREATE TABLE Pedido (
     id_pedido INT PRIMARY KEY,
     domicilio VARCHAR(50) NOT NULL,
     id_comercio INT NOT NULL,
@@ -110,7 +114,6 @@ CREATE TABLE Medio_de_pago (
     id_medio_pago INT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
 );
-
 CREATE TABLE Pago (
     pagado BOOL,
     id_pago INT PRIMARY KEY,
@@ -129,9 +132,9 @@ CREATE TABLE Promocion (
     dias_de_semana DATE NOT NULL,
     fecha_inicio DATE NOT NULL,
     fecha_final DATE NOT NULL
-)
+);
 
-CREATE TABLE tiene_está (
+CREATE TABLE tiene_esta (
     id_producto INT NOT NULL,
     id_pedido INT NOT NULL,
     PRIMARY KEY (id_pedido , id_producto),
@@ -139,7 +142,7 @@ CREATE TABLE tiene_está (
         REFERENCES Producto (id_producto),
     FOREIGN KEY (id_pedido)
         REFERENCES Pedido (id_pedido)
-)
+);
 
 CREATE TABLE estadentro_tiene (
     id_promocion INT NOT NULL,
@@ -149,7 +152,7 @@ CREATE TABLE estadentro_tiene (
         REFERENCES Promocion (id_promocion),
     FOREIGN KEY (id_producto)
         REFERENCES Producto (id_producto)
-)
+);
 
 CREATE TABLE asignado_tiene (
     id_promocion INT NOT NULL,
@@ -159,4 +162,4 @@ CREATE TABLE asignado_tiene (
         REFERENCES Promocion (id_promocion),
     FOREIGN KEY (id_pedido)
         REFERENCES Pedido (id_pedido)
-)
+);
