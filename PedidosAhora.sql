@@ -50,8 +50,8 @@ CREATE TABLE Repartidor
 
 CREATE TABLE Valoracion
 (
-  fecha INT PRIMARY KEY,
-  id_valoracion INT NOT NULL,
+  fecha INT NOT NULL,
+  id_valoracion INT PRIMARY KEY,
   comentario_comercio INT NOT NULL,
   puntuacion_comercio INT NOT NULL,
   comentario_repartidor INT NOT NULL,
@@ -84,14 +84,14 @@ CREATE TABLE Producto
 
 CREATE TABLE Medio_de_pago
 (
-  nombre INT PRIMARY KEY,
-  id_medio_pago INT NOT NULL
+  id_medio_pago INT PRIMARY KEY,
+  nombre INT NOT NULL
 );
 
 CREATE TABLE Pago
 (
-  pagado INT PRIMARY KEY,
-  id_pago INT NOT NULL,
+  pagado INT NOT NULL,
+  id_pago INT Primary KEY,
   id_medio_pago INT NOT NULL,
   id_pedido INT NOT NULL,
   FOREIGN KEY (id_medio_pago) REFERENCES Medio_de_pago(id_medio_pago),
@@ -110,24 +110,27 @@ CREATE TABLE Promocion
 
 CREATE TABLE tiene_está
 (
-  id_producto INT PRIMARY KEY,
+  id_producto INT NOT NULL,
   id_pedido INT NOT NULL,
+  PRIMARY KEY (id_pedido, id_producto),
   FOREIGN KEY (id_producto) REFERENCES Producto(id_producto),
   FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido)
 );
 
 CREATE TABLE estadentro_tiene
 (
-  id_promocion INT PRIMARY KEY,
+  id_promocion INT NOT NULL,
   id_producto INT NOT NULL,
+  PRIMARY KEY (id_promocion, id_producto),
   FOREIGN KEY (id_promocion) REFERENCES Promocion(id_promocion),
   FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
 );
 
 CREATE TABLE asignado_tiene
 (
-  id_promocion INT PRIMARY KEY,
+  id_promocion INT NOT NULL,
   id_pedido INT NOT NULL,
+  PRIMARY KEY (id_pedido, id_promocion),
   FOREIGN KEY (id_promocion) REFERENCES Promocion(id_promocion),
   FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido)
 );
