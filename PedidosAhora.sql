@@ -1,7 +1,7 @@
 CREATE DATABASE PedidosAhora;
 USE PedidosAhora;
 
-CREATE TABLE Categoria_comercio (
+CREATE TABLE Categoria_comercio ( -- OK
     id_categoria INT PRIMARY KEY,
     categoria VARCHAR(20) UNIQUE NOT NULL
 );
