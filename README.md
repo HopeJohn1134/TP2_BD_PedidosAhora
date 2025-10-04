@@ -53,10 +53,10 @@ El escenario específico será definido en clase.
 * [x] Construir el **DER** con notación clara.
 * [x] Transformarlo en un **Modelo Relacional** normalizado.
 * [x] Implementar la BD en **MySQL**.
-* [x] Incluir al menos un **CHECK** y 5 **índices adicionales**.
-* [x] Insertar **30 registros por tabla** (mínimo).
-* [x] Crear al menos **10 consultas SQL** (con joins, agregaciones, subconsultas, etc.).
-* [x] Definir **1 vista** útil para el escenario.
+* [ ] Incluir al menos un **CHECK** y 5 **índices adicionales**.
+* [ ] Insertar **30 registros por tabla** (mínimo).
+* [ ] Crear al menos **10 consultas SQL** (con joins, agregaciones, subconsultas, etc.).
+* [ ] Definir **1 vista** útil para el escenario.
 
 ---
 
