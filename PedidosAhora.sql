@@ -1,6 +1,3 @@
-
--- check fechas
-
 CREATE DATABASE PedidosAhora;
 USE PedidosAhora;
 
@@ -17,7 +14,6 @@ CREATE TABLE MedioDeTransporte (
     tipo VARCHAR(50) UNIQUE NOT NULL
 );
 
--- Se podria agregar vehiculos como tabla
 CREATE TABLE Repartidor (
     id_repartidor INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
@@ -56,7 +52,7 @@ CREATE TABLE Comercio (
         REFERENCES CategoriaComercio (id_categoria),
     CHECK (telefono REGEXP '^[0-9]{7,20}$')
 );
--- preguntarle al profe ======================================================================
+
 CREATE TABLE HorarioXComercio (
     id_horarioxcomercio INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     id_horario INT UNSIGNED NOT NULL,
@@ -81,8 +77,6 @@ CREATE TABLE Usuario (
 );
 
 
--- explicar porque default ""
--- valoracion promedio de comeercio y repartidor
 CREATE TABLE Valoracion (
     id_valoracion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     id_pedido INT UNSIGNED NOT NULL,
@@ -96,7 +90,7 @@ CREATE TABLE Valoracion (
     FOREIGN KEY (id_pedido)
         REFERENCES Pedido (id_pedido)
 );
--- preguntar por int vs tinyint en primary key
+
 CREATE TABLE EstadoDelPedido (
     id_estado INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     tipo VARCHAR(50) UNIQUE NOT NULL
@@ -136,8 +130,7 @@ CREATE TABLE MedioDePago (
     id_medio_pago INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
 );
--- ver si agregar el precio pagado
--- check cuando es pagado se pone currenttimestamp
+
 CREATE TABLE Pago (
     id_pago INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     pagado BOOL DEFAULT FALSE,
@@ -150,11 +143,6 @@ CREATE TABLE Pago (
         REFERENCES Pedido (id_pedido)
 );
 
--- nuestra app solo toma porcentajes para promociones de producto
--- las promos son solo para productos y se aplican en pagos, desaparece la relacion directa de promocion y pedido
--- estructura para almacenar los dias de la semana con bits
--- si es acumulable con otras promociones, logica de cual agarras si no son
--- check para fecha inicio y fecha final
 CREATE TABLE Promocion (
     id_promocion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
@@ -167,12 +155,12 @@ CREATE TABLE Promocion (
     CHECK (fecha_inicio < fecha_final)
 );
 
--- preguntar al profe ==================================================================
 CREATE TABLE ProductoXPedido (
     id_productoxpedido INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     id_producto INT UNSIGNED NOT NULL,
     id_pedido INT UNSIGNED NOT NULL,
     cantidad SMALLINT UNSIGNED NOT NULL,
+    precio_unitario DECIMAL(12 , 2 ) UNSIGNED NOT NULL,
     FOREIGN KEY (id_producto)
         REFERENCES Producto (id_producto),
     FOREIGN KEY (id_pedido)
