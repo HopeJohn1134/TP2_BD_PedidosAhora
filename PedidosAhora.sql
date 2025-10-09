@@ -5,20 +5,21 @@ CREATE DATABASE PedidosAhora;
 USE PedidosAhora;
 
 CREATE TABLE Horario (
-    id_horario INT AUTO_INCREMENT PRIMARY KEY,
+    id_horario INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     dia_de_semana ENUM('LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'),
     hora_entrada TIME,
-    hora_salida TIME
+    hora_salida TIME,
+    CHECK (hora_entrada < hora_salida)
 );
 
 CREATE TABLE MedioDeTransporte (
-    id_transporte INT AUTO_INCREMENT PRIMARY KEY,
+    id_transporte INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     tipo VARCHAR(50) UNIQUE NOT NULL
 );
 
 -- Se podria agregar vehiculos como tabla
 CREATE TABLE Repartidor (
-    id_repartidor INT AUTO_INCREMENT PRIMARY KEY,
+    id_repartidor INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50) NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -29,7 +30,7 @@ CREATE TABLE Repartidor (
 );
 
 CREATE TABLE HorarioXRepartidor (
-    id_horarioxrepartidor INT AUTO_INCREMENT PRIMARY KEY,
+    id_horarioxrepartidor INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     id_horario INT UNSIGNED NOT NULL,
     id_repartidor INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_horario)
@@ -39,25 +40,25 @@ CREATE TABLE HorarioXRepartidor (
 );
 
 CREATE TABLE CategoriaComercio (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    id_categoria INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     categoria VARCHAR(20) UNIQUE NOT NULL
 );
 
 CREATE TABLE Comercio (
-    id_comercio INT AUTO_INCREMENT PRIMARY KEY,
+    id_comercio INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     direccion VARCHAR(100) NOT NULL,
     nombre VARCHAR(50) NOT NULL,
-    telefono VARCHAR(15) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_baja TIMESTAMP DEFAULT NULL,
     id_categoria INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_categoria)
         REFERENCES CategoriaComercio (id_categoria),
-    CHECK (telefono REGEXP '^[0-9]{7,15}$')
+    CHECK (telefono REGEXP '^[0-9]{7,20}$')
 );
 -- preguntarle al profe ======================================================================
 CREATE TABLE HorarioXComercio (
-    id_horarioxcomercio INT AUTO_INCREMENT PRIMARY KEY,
+    id_horarioxcomercio INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     id_horario INT UNSIGNED NOT NULL,
     id_comercio INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_horario)
@@ -67,44 +68,44 @@ CREATE TABLE HorarioXComercio (
 );
 
 CREATE TABLE Usuario (
-    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50) NOT NULL,
     domicilio VARCHAR(100) NOT NULL,
     correo_electronico VARCHAR(100) UNIQUE NOT NULL,
-    telefono VARCHAR(15) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_baja TIMESTAMP DEFAULT NULL,
     CHECK (correo_electronico LIKE '%_@_%._%'),
-    CHECK (telefono REGEXP '^[0-9]{7,15}$')
+    CHECK (telefono REGEXP '^[0-9]{7,20}$')
 );
 
 
 -- explicar porque default ""
 -- valoracion promedio de comeercio y repartidor
 CREATE TABLE Valoracion (
-    id_valoracion INT AUTO_INCREMENT PRIMARY KEY,
-    id_pedido INT NOT NULL,
+    id_valoracion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT UNSIGNED NOT NULL,
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    comentario_comercio TEXT DEFAULT '',
+    comentario_comercio TEXT DEFAULT NULL,
     puntuacion_comercio TINYINT UNSIGNED NOT NULL,
-    comentario_repartidor TEXT DEFAULT '',
+    comentario_repartidor TEXT DEFAULT NULL,
     puntuacion_repartidor TINYINT UNSIGNED NOT NULL,
     CHECK (puntuacion_comercio BETWEEN 1 AND 5),
     CHECK (puntuacion_repartidor BETWEEN 1 AND 5),
     FOREIGN KEY (id_pedido)
-        REFERENCES Valoracion (id_pedido)
+        REFERENCES Pedido (id_pedido)
 );
 -- preguntar por int vs tinyint en primary key
 CREATE TABLE EstadoDelPedido (
-    id_estado INT AUTO_INCREMENT PRIMARY KEY,
+    id_estado INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     tipo VARCHAR(50) UNIQUE NOT NULL
 );
 
 
 CREATE TABLE Pedido (
-    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
-    domicilio VARCHAR(50) NOT NULL,
+    id_pedido INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    domicilio VARCHAR(100) NOT NULL,
     fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_comercio INT UNSIGNED NOT NULL,
     id_usuario INT UNSIGNED NOT NULL,
@@ -121,8 +122,8 @@ CREATE TABLE Pedido (
 );
 
 CREATE TABLE Producto (
-    id_producto INT AUTO_INCREMENT PRIMARY KEY,
-    precio DECIMAL(12 , 2 ) NOT NULL,
+    id_producto INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    precio DECIMAL(12 , 2 ) UNSIGNED NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_baja TIMESTAMP DEFAULT NULL,
@@ -132,13 +133,13 @@ CREATE TABLE Producto (
 );
 
 CREATE TABLE MedioDePago (
-    id_medio_pago INT AUTO_INCREMENT PRIMARY KEY,
+    id_medio_pago INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
 );
 -- ver si agregar el precio pagado
 -- check cuando es pagado se pone currenttimestamp
 CREATE TABLE Pago (
-    id_pago INT AUTO_INCREMENT PRIMARY KEY,
+    id_pago INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     pagado BOOL DEFAULT FALSE,
     fecha_pago TIMESTAMP DEFAULT NULL,
     id_medio INT UNSIGNED NOT NULL,
@@ -155,7 +156,7 @@ CREATE TABLE Pago (
 -- si es acumulable con otras promociones, logica de cual agarras si no son
 -- check para fecha inicio y fecha final
 CREATE TABLE Promocion (
-    id_promocion INT AUTO_INCREMENT PRIMARY KEY,
+    id_promocion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     porcentaje_descuento TINYINT UNSIGNED NOT NULL,
     fecha_inicio DATETIME NOT NULL,
@@ -167,7 +168,7 @@ CREATE TABLE Promocion (
 
 -- preguntar al profe ==================================================================
 CREATE TABLE ProductoXPedido (
-    id_productoxpedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_productoxpedido INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     id_producto INT UNSIGNED NOT NULL,
     id_pedido INT UNSIGNED NOT NULL,
     cantidad SMALLINT UNSIGNED NOT NULL,
@@ -178,7 +179,7 @@ CREATE TABLE ProductoXPedido (
 );
 
 CREATE TABLE PromocionXProducto (
-    id_promocionxproducto INT AUTO_INCREMENT PRIMARY KEY,
+    id_promocionxproducto INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     id_promocion INT UNSIGNED NOT NULL,
     id_producto INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_promocion)
