@@ -147,7 +147,6 @@ CREATE TABLE TieneEsta (
 CREATE TABLE EstaDentroTiene (
     id_promocion INT NOT NULL,
     id_producto INT NOT NULL,
-    PRIMARY KEY (id_promocion , id_producto),
     FOREIGN KEY (id_promocion)
         REFERENCES Promocion (id_promocion),
     FOREIGN KEY (id_producto)
