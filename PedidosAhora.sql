@@ -2,33 +2,53 @@ CREATE DATABASE PedidosAhora;
 USE PedidosAhora;
 
 CREATE TABLE CategoriaComercio (
-    id_categoria INT PRIMARY KEY,
+    id_categoria INT UNSIGNED PRIMARY KEY,
     categoria VARCHAR(20) UNIQUE NOT NULL
 );
- 
+-- enum los dias de semana
+
+
 CREATE TABLE Horario (
-    id_horario INT PRIMARY KEY,
-    dia_de_semana VARCHAR(10),
-    horario VARCHAR(100)
+    id_horario INT UNSIGNED PRIMARY KEY,
+    dia_de_semana ENUM ("LUNES","MARTES","MIERCOLES","JUEVES","VIERNES","SABADO","DOMINGO"), 
+    hora_entrada TIMESTAMP,
+    hora_salida TIMESTAMP
+);
+-- preguntarle al profe ======================================================================
+CREATE TABLE HorarioXComercio (
+    id_horarioxcomercio INT UNSIGNED PRIMARY KEY,
+    id_horario INT UNSIGNED NOT NULL,
+    id_comercio INT UNSIGNED NOT NULL,
+    FOREIGN KEY (id_horario)
+        REFERENCES Horario (id_horario),
+    FOREIGN KEY (id_comercio)
+        REFERENCES Comercio (id_comercio)
+);
+
+CREATE TABLE HorarioXRepartidor (
+    id_horarioxrepartidor INT UNSIGNED PRIMARY KEY,
+    id_horario INT UNSIGNED NOT NULL,
+    id_repartidor INT UNSIGNED NOT NULL,
+    FOREIGN KEY (id_horario)
+        REFERENCES Horario (id_horario),
+    FOREIGN KEY (id_repartidor)
+        REFERENCES Repartidor (id_repartidor)
 );
 
 CREATE TABLE Comercio (
-    id_comercio INT PRIMARY KEY,
+    id_comercio INT UNSIGNED PRIMARY KEY,
     direccion VARCHAR(100) UNIQUE NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     telefono CHAR(15) NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    id_categoria INT NOT NULL,
+    id_categoria INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_categoria)
         REFERENCES Categoria_comercio (id_categoria),
-    id_horario_atencion INT NOT NULL,
-    FOREIGN KEY (id_horario_atencion)
-        REFERENCES Horario (id_horario),
     CHECK (telefono REGEXP '^[0-9]{7,15}$')
 );
 
 CREATE TABLE Usuario (
-    id_usuario INT PRIMARY KEY,
+    id_usuario INT UNSIGNED PRIMARY KEY,
     apellido VARCHAR(50) NOT NULL,
     domicilio VARCHAR(100) NOT NULL,
     correo_electronico VARCHAR(100) UNIQUE NOT NULL,
@@ -40,55 +60,45 @@ CREATE TABLE Usuario (
 );
 
 CREATE TABLE MedioDeTransporte (
-    id_transporte INT PRIMARY KEY,
+    id_transporte INT UNSIGNED PRIMARY KEY,
     tipo VARCHAR(50) UNIQUE NOT NULL
 );
--- revisar con el profe
-CREATE TABLE Turno (
-    id_turno INT PRIMARY KEY,
-    nombre_turno VARCHAR(50) UNIQUE NOT NULL,
-    id_horario INT NOT NULL,
-    FOREIGN KEY (id_horario)
-        REFERENCES Horario (id_horario)
-);
+
 
 CREATE TABLE Repartidor (
-    id_repartidor INT PRIMARY KEY,
+    id_repartidor INT UNSIGNED PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50) NOT NULL,
-    id_transporte INT NOT NULL,
+    id_transporte INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_transporte)
-        REFERENCES Medio_de_Transporte (id_transporte),
-    id_turno INT NOT NULL,
-    FOREIGN KEY (id_turno)
-        REFERENCES Turno (id_turno)
+        REFERENCES Medio_de_Transporte (id_transporte)
 );
 
 CREATE TABLE Valoracion (
-    id_valoracion INT PRIMARY KEY,
+    id_valoracion INT UNSIGNED PRIMARY KEY,
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     comentario_comercio TEXT NOT NULL,
-    puntuacion_comercio INT NOT NULL,
+    puntuacion_comercio INT UNSIGNED NOT NULL,
     comentario_repartidor TEXT NOT NULL,
-    puntuacion_repartidor INT NOT NULL,
+    puntuacion_repartidor INT UNSIGNED NOT NULL,
     CHECK (puntuacion_comercio BETWEEN 0 AND 5),
     CHECK (puntuacion_repartidor BETWEEN 0 AND 5)
 );
 
 CREATE TABLE Estado (
-    id_estado INT PRIMARY KEY,
+    id_estado INT UNSIGNED PRIMARY KEY,
     tipo VARCHAR(50) UNIQUE NOT NULL
 );
 
 
 CREATE TABLE Pedido (
-    id_pedido INT PRIMARY KEY,
+    id_pedido INT UNSIGNED PRIMARY KEY,
     domicilio VARCHAR(50) NOT NULL,
-    id_comercio INT NOT NULL,
-    id_usuario INT NOT NULL,
-    id_repartidor INT NOT NULL,
-    id_valoracion INT NOT NULL,
-    id_estado INT NOT NULL,
+    id_comercio INT UNSIGNED NOT NULL,
+    id_usuario INT UNSIGNED NOT NULL,
+    id_repartidor INT UNSIGNED NOT NULL,
+    id_valoracion INT UNSIGNED NOT NULL,
+    id_estado INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_estado)
         REFERENCES Estado (id_estado),
     FOREIGN KEY (id_comercio)
@@ -102,23 +112,23 @@ CREATE TABLE Pedido (
 );
 
 CREATE TABLE Producto (
-    id_producto INT PRIMARY KEY,
+    id_producto INT UNSIGNED PRIMARY KEY,
     precio DECIMAL(8 , 2 ) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
-    id_comercio INT NOT NULL,
+    id_comercio INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_comercio)
         REFERENCES Comercio (id_comercio)
 );
 
 CREATE TABLE MedioDePago (
-    id_medio_pago INT PRIMARY KEY,
+    id_medio_pago INT UNSIGNED PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
 );
 CREATE TABLE Pago (
     pagado BOOL,
-    id_pago INT PRIMARY KEY,
-    id_medio_pago INT NOT NULL,
-    id_pedido INT NOT NULL,
+    id_pago INT UNSIGNED PRIMARY KEY,
+    id_medio_pago INT UNSIGNED NOT NULL,
+    id_pedido INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_medio_pago)
         REFERENCES Medio_de_pago (id_medio_pago),
     FOREIGN KEY (id_pedido)
@@ -126,17 +136,18 @@ CREATE TABLE Pago (
 );
 
 CREATE TABLE Promocion (
-    id_promocion INT PRIMARY KEY,
+    id_promocion INT UNSIGNED PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    valor_descuento INT NOT NULL,
+    valor_descuento INT UNSIGNED NOT NULL,
     dias_de_semana DATE NOT NULL,
     fecha_inicio DATE NOT NULL,
     fecha_final DATE NOT NULL
 );
-
+-- preguntar al profe ==================================================================
+-- n:n y 1:n
 CREATE TABLE TieneEsta (
-    id_producto INT NOT NULL,
-    id_pedido INT NOT NULL,
+    id_producto INT UNSIGNED NOT NULL,
+    id_pedido INT UNSIGNED NOT NULL,
     PRIMARY KEY (id_pedido , id_producto),
     FOREIGN KEY (id_producto)
         REFERENCES Producto (id_producto),
@@ -145,8 +156,8 @@ CREATE TABLE TieneEsta (
 );
 
 CREATE TABLE EstaDentroTiene (
-    id_promocion INT NOT NULL,
-    id_producto INT NOT NULL,
+    id_promocion INT UNSIGNED NOT NULL,
+    id_producto INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_promocion)
         REFERENCES Promocion (id_promocion),
     FOREIGN KEY (id_producto)
@@ -154,8 +165,8 @@ CREATE TABLE EstaDentroTiene (
 );
 
 CREATE TABLE AsignadoTiene (
-    id_promocion INT NOT NULL,
-    id_pedido INT NOT NULL,
+    id_promocion INT UNSIGNED NOT NULL,
+    id_pedido INT UNSIGNED NOT NULL,
     PRIMARY KEY (id_pedido , id_promocion),
     FOREIGN KEY (id_promocion)
         REFERENCES Promocion (id_promocion),
