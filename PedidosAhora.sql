@@ -163,7 +163,8 @@ CREATE TABLE Promocion (
     fecha_final DATETIME NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_baja TIMESTAMP DEFAULT NULL,
-    CHECK (porcentaje_descuento BETWEEN 0 AND 100)
+    CHECK (porcentaje_descuento BETWEEN 0 AND 100),
+    CHECK (fecha_inicio < fecha_final)
 );
 
 -- preguntar al profe ==================================================================
