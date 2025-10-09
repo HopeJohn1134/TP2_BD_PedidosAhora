@@ -1,19 +1,19 @@
 CREATE DATABASE PedidosAhora;
 USE PedidosAhora;
--- OK
+
 CREATE TABLE CategoriaComercio (
-    id_categoria INT UNSIGNED PRIMARY KEY,
+    id_categoria INT PRIMARY KEY,
     categoria VARCHAR(20) UNIQUE NOT NULL
 );
--- OK
+ 
 CREATE TABLE Horario (
-    id_horario INT UNSIGNED PRIMARY KEY,
+    id_horario INT PRIMARY KEY,
     dia_de_semana VARCHAR(10),
     horario VARCHAR(100)
 );
 
 CREATE TABLE Comercio (
-    id_comercio INT UNSIGNED PRIMARY KEY,
+    id_comercio INT PRIMARY KEY,
     direccion VARCHAR(100) UNIQUE NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     telefono CHAR(15) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE Comercio (
 );
 
 CREATE TABLE Usuario (
-    id_usuario INT UNSIGNED PRIMARY KEY,
+    id_usuario INT PRIMARY KEY,
     apellido VARCHAR(50) NOT NULL,
     domicilio VARCHAR(100) NOT NULL,
     correo_electronico VARCHAR(100) UNIQUE NOT NULL,
@@ -40,12 +40,12 @@ CREATE TABLE Usuario (
 );
 
 CREATE TABLE MedioDeTransporte (
-    id_transporte INT UNSIGNED PRIMARY KEY,
+    id_transporte INT PRIMARY KEY,
     tipo VARCHAR(50) UNIQUE NOT NULL
 );
 -- revisar con el profe
 CREATE TABLE Turno (
-    id_turno INT UNSIGNED PRIMARY KEY,
+    id_turno INT PRIMARY KEY,
     nombre_turno VARCHAR(50) UNIQUE NOT NULL,
     id_horario INT NOT NULL,
     FOREIGN KEY (id_horario)
@@ -53,7 +53,7 @@ CREATE TABLE Turno (
 );
 
 CREATE TABLE Repartidor (
-    id_repartidor INT UNSIGNED PRIMARY KEY,
+    id_repartidor INT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50) NOT NULL,
     id_transporte INT NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE Repartidor (
 );
 
 CREATE TABLE Valoracion (
-    id_valoracion INT UNSIGNED PRIMARY KEY,
+    id_valoracion INT PRIMARY KEY,
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     comentario_comercio TEXT NOT NULL,
     puntuacion_comercio INT NOT NULL,
@@ -76,13 +76,13 @@ CREATE TABLE Valoracion (
 );
 
 CREATE TABLE Estado (
-    id_estado INT UNSIGNED PRIMARY KEY,
+    id_estado INT PRIMARY KEY,
     tipo VARCHAR(50) UNIQUE NOT NULL
 );
 
 
 CREATE TABLE Pedido (
-    id_pedido INT UNSIGNED PRIMARY KEY,
+    id_pedido INT PRIMARY KEY,
     domicilio VARCHAR(50) NOT NULL,
     id_comercio INT NOT NULL,
     id_usuario INT NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE Pedido (
 );
 
 CREATE TABLE Producto (
-    id_producto INT UNSIGNED PRIMARY KEY,
+    id_producto INT PRIMARY KEY,
     precio DECIMAL(8 , 2 ) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     id_comercio INT NOT NULL,
@@ -111,12 +111,12 @@ CREATE TABLE Producto (
 );
 
 CREATE TABLE MedioDePago (
-    id_medio_pago INT UNSIGNED PRIMARY KEY,
+    id_medio_pago INT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
 );
 CREATE TABLE Pago (
     pagado BOOL,
-    id_pago INT UNSIGNED PRIMARY KEY,
+    id_pago INT PRIMARY KEY,
     id_medio_pago INT NOT NULL,
     id_pedido INT NOT NULL,
     FOREIGN KEY (id_medio_pago)
@@ -126,7 +126,7 @@ CREATE TABLE Pago (
 );
 
 CREATE TABLE Promocion (
-    id_promocion INT UNSIGNED PRIMARY KEY,
+    id_promocion INT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     valor_descuento INT NOT NULL,
     dias_de_semana DATE NOT NULL,
