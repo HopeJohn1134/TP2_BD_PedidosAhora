@@ -52,37 +52,12 @@ El escenario específico será definido en clase.
 
 * [x] Construir el **DER** con notación clara.
 * [x] Transformarlo en un **Modelo Relacional** normalizado.
-* [x] Implementar la BD en **MySQL**.
+* [ ] Normalizar BD al nivel
+* [ ] Implementar la BD en **MySQL**.
 * [ ] Incluir al menos un **CHECK** y 5 **índices adicionales**.
 * [ ] Insertar **30 registros por tabla** (mínimo).
 * [ ] Crear al menos **10 consultas SQL** (con joins, agregaciones, subconsultas, etc.).
 * [ ] Definir **1 vista** útil para el escenario.
-
----
-
-## ▶️ Ejecución
-
-1. Clonar el repositorio:
-
-   ```bash
-   git clone https://github.com/usuario/TP2_BD.git
-   cd TP2_BD/sql
-   ```
-2. Crear la base de datos en MySQL:
-
-   ```sql
-   SOURCE creacion_tablas.sql;
-   ```
-3. Cargar datos:
-
-   ```sql
-   SOURCE carga_datos.sql;
-   ```
-4. Probar consultas:
-
-   ```sql
-   SOURCE consultas.sql;
-   ```
 
 ---
 
