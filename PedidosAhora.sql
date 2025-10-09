@@ -76,21 +76,6 @@ CREATE TABLE Usuario (
     CHECK (telefono REGEXP '^[0-9]{7,20}$')
 );
 
-
-CREATE TABLE Valoracion (
-    id_valoracion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    id_pedido INT UNSIGNED NOT NULL,
-    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    comentario_comercio TEXT DEFAULT NULL,
-    puntuacion_comercio TINYINT UNSIGNED NOT NULL,
-    comentario_repartidor TEXT DEFAULT NULL,
-    puntuacion_repartidor TINYINT UNSIGNED NOT NULL,
-    CHECK (puntuacion_comercio BETWEEN 1 AND 5),
-    CHECK (puntuacion_repartidor BETWEEN 1 AND 5),
-    FOREIGN KEY (id_pedido)
-        REFERENCES Pedido (id_pedido)
-);
-
 CREATE TABLE EstadoDelPedido (
     id_estado INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     tipo VARCHAR(50) UNIQUE NOT NULL
@@ -113,6 +98,20 @@ CREATE TABLE Pedido (
         REFERENCES Usuario (id_usuario),
     FOREIGN KEY (id_repartidor)
         REFERENCES Repartidor (id_repartidor)
+);
+
+CREATE TABLE Valoracion (
+    id_valoracion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT UNSIGNED NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    comentario_comercio TEXT DEFAULT NULL,
+    puntuacion_comercio TINYINT UNSIGNED NOT NULL,
+    comentario_repartidor TEXT DEFAULT NULL,
+    puntuacion_repartidor TINYINT UNSIGNED NOT NULL,
+    CHECK (puntuacion_comercio BETWEEN 1 AND 5),
+    CHECK (puntuacion_repartidor BETWEEN 1 AND 5),
+    FOREIGN KEY (id_pedido)
+        REFERENCES Pedido (id_pedido)
 );
 
 CREATE TABLE Producto (
