@@ -61,8 +61,8 @@ El escenario específico será definido en clase.
 
 ## Por hacer
 
-* [ ] 1. Arreglar/corregir/revisar sentencias de creación de tablas sql.
-* [ ] 1 1/2. la tablad e horarios hay que repensar.
+* [X] 1. Arreglar/corregir/revisar sentencias de creación de tablas sql.
+* [x] 1 1/2. la tabla de horarios hay que repensar.
 * [ ] 2. Cambiar los gráficos y consultar a chat lo anterior en conjunto con los gráficos (preguntar si está correcto y si sigue las reglas de normalización).
 * [ ] 3. Anotar y desarrollar las ideas y supuestos que seguimos para modelar la base de datos (decisiones de diseño).
 * [ ] 4. Hacer las inserciones a las tablas (porlomenos 30 registros por tabla, en caso de poner menos justificar por qué).
