@@ -1,4 +1,5 @@
 CREATE DATABASE PedidosAhora;
+
 USE PedidosAhora;
 
 CREATE TABLE Horario (
@@ -6,12 +7,14 @@ CREATE TABLE Horario (
     dia_de_semana ENUM('LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'),
     hora_entrada TIME,
     hora_salida TIME,
+    eliminado BOOLEAN DEFAULT FALSE,
     CHECK (hora_entrada < hora_salida)
 );
 
 CREATE TABLE MedioDeTransporte (
     id_transporte INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    tipo VARCHAR(50) UNIQUE NOT NULL
+    tipo VARCHAR(50) UNIQUE NOT NULL,
+    eliminado BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE Repartidor (
@@ -22,22 +25,26 @@ CREATE TABLE Repartidor (
     fecha_baja TIMESTAMP DEFAULT NULL,
     id_transporte INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_transporte)
-        REFERENCES MedioDeTransporte (id_transporte)
+        REFERENCES MedioDeTransporte (id_transporte),
+    eliminado BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE HorarioXRepartidor (
     id_horarioxrepartidor INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     id_horario INT UNSIGNED NOT NULL,
     id_repartidor INT UNSIGNED NOT NULL,
+    eliminado BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id_horario)
         REFERENCES Horario (id_horario),
     FOREIGN KEY (id_repartidor)
         REFERENCES Repartidor (id_repartidor)
+    
 );
 
 CREATE TABLE CategoriaComercio (
     id_categoria INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    categoria VARCHAR(20) UNIQUE NOT NULL
+    categoria VARCHAR(20) UNIQUE NOT NULL,
+    eliminado BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE Comercio (
@@ -48,6 +55,7 @@ CREATE TABLE Comercio (
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_baja TIMESTAMP DEFAULT NULL,
     id_categoria INT UNSIGNED NOT NULL,
+    eliminado BOOLEAN DEFAULT FALSE
     FOREIGN KEY (id_categoria)
         REFERENCES CategoriaComercio (id_categoria),
     CHECK (telefono REGEXP '^[0-9]{7,20}$')
