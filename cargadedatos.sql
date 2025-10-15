@@ -66,31 +66,31 @@ insert into Repartidor (nombre, apellido, id_transporte) values
 ('José', 'Martínez', 2),
 ('Ana', 'Rodríguez', 5),
 ('Luis', 'Hernández', 4),
-('Laura', 'Gómez', 6),
+('Laura', 'Gómez', 2),
 ('Javier', 'Díaz', 1),
 ('Sofía', 'Torres', 2),
 ('Andrés', 'Ruiz', 3),
 ('Lucía', 'Ramírez', 4),
 ('Pedro', 'Flores', 5),
-('Elena', 'Morales', 6),
+('Elena', 'Morales', 3),
 ('Fernando', 'Ortega', 1),
 ('Isabel', 'Castro', 2),
 ('Miguel', 'Navarro', 3),
 ('Patricia', 'Delgado', 4),
 ('Raúl', 'Méndez', 5),
-('Gabriela', 'Vargas', 6),
+('Gabriela', 'Vargas', 1),
 ('Hugo', 'Rojas', 1),
 ('Camila', 'Santos', 2),
 ('Diego', 'Iglesias', 3),
 ('Valeria', 'Guerrero', 4),
 ('Sergio', 'Cortés', 5),
-('Paula', 'Jiménez', 6),
+('Paula', 'Jiménez', 2),
 ('Francisco', 'Reyes', 1),
 ('Daniela', 'Paredes', 2),
 ('Manuel', 'Silva', 3),
 ('Natalia', 'Peña', 4),
 ('Ricardo', 'Campos', 5),
-('Julia', 'Vega', 6);
+('Julia', 'Vega', 2);
 
 
 INSERT INTO HorarioXRepartidor (id_horario, id_repartidor) VALUES
@@ -209,9 +209,8 @@ INSERT INTO HorarioXComercio (id_horario, id_comercio) VALUES
 -- Belleza / Salud en horarios mixtos
 INSERT INTO HorarioXComercio (id_horario, id_comercio) VALUES
 (36,21),(37,21),(38,22),(39,22),(40,23),(41,23),(42,24),(43,24);
-);
 
-INSERT INTO EstadoDelPedido (tipo) VALUES
+INSERT INTO EstadoDelPedido (estado) VALUES
 ('PENDIENTE'),
 ('ACEPTADO'),
 ('EN_PREPARACION'),
