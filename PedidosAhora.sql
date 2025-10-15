@@ -55,7 +55,7 @@ CREATE TABLE Comercio (
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_baja TIMESTAMP DEFAULT NULL,
     id_categoria INT UNSIGNED NOT NULL,
-    eliminado BOOLEAN DEFAULT FALSE
+    eliminado BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id_categoria)
         REFERENCES CategoriaComercio (id_categoria),
     CHECK (telefono REGEXP '^[0-9]{7,20}$')
@@ -86,7 +86,7 @@ CREATE TABLE Usuario (
 
 CREATE TABLE EstadoDelPedido (
     id_estado INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    tipo VARCHAR(50) UNIQUE NOT NULL
+    estado VARCHAR(50) UNIQUE NOT NULL
 );
 
 
