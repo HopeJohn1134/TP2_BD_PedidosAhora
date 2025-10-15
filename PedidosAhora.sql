@@ -44,7 +44,7 @@ CREATE TABLE HorarioXRepartidor (
 
 CREATE TABLE CategoriaComercio (
     id_categoria INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    categoria VARCHAR(20) UNIQUE NOT NULL,
+    categoria VARCHAR(50) UNIQUE NOT NULL,
     eliminado BOOLEAN DEFAULT FALSE
 );
 
