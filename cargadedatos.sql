@@ -799,48 +799,54 @@ INSERT INTO Promocion (nombre, porcentaje_descuento, fecha_inicio, fecha_final) 
 
 INSERT INTO PromocionXProducto (id_promocion, id_producto) VALUES
 -- Promo Hamburguesas con Productos de Burger House
-(9, 34), (9, 35), (9, 36),
+(1, 34), (1, 35), (1, 36),
 
 -- Especial Cafetería con Productos de cafeterías
-(10, 28), (10, 30), (10, 82), (10, 83),
+(2, 28), (2, 29), (2, 30), (2, 82), (2, 83), (2, 84),
 
 -- Happy Hour Bebidas con bebidas de Bar La Esquina
-(11, 49), (11, 51),
+(3, 45), (3, 49), (3, 51),
 
 -- Semana de la Milanesa con milanesas de Speedy Food y Comida Express
-(12, 43), (12, 86),
+(4, 43), (4, 86),
 
 -- Cuidado Personal con Productos de Belleza Natural y Aromas & Perfumes
-(13, 61), (13, 62), (13, 63), (13, 64), (13, 65), (13, 66),
+(5, 61), (5, 62), (5, 63), (5, 64), (5, 65), (5, 66),
 
 -- Todo para tu Mascota con Productos de Mundo Mascotas
-(14, 13), (14, 14), (14, 15),
+(6, 13), (6, 14), (6, 15),
 
 -- Renueva tu Hogar con Productos de Ferretería Central
-(15, 16), (15, 17), (15, 18),
+(7, 16), (7, 17), (7, 18),
 
 -- Fin de Semana de Helados con Productos de Helados Polar
-(16, 40), (16, 41), (16, 42),
+(8, 40), (8, 41), (8, 42),
 
 -- Promo Carnicería con Productos de Carnes Premium
-(17, 55), (17, 56), (17, 57),
+(9, 55), (9, 56), (9, 57),
 
 -- Frescura de Estación con Productos de Verduras Frescas
-(18, 58), (18, 59), (18, 60),
+(10, 58), (10, 59), (10, 60),
 
 -- Combos Suplementos con suplementos de Suplementos ProLife
-(19, 73), (19, 74), (19, 75),
+(11, 73), (11, 74), (11, 75),
 
 -- Aniversario Bistró Palermo con Productos del Bistró
-(20, 25), (20, 26), (20, 27),
+(12, 25), (12, 26), (12, 27),
 
 -- Oferta Express con Productos de Comida Express
-(23, 85), (23, 87),
+(15, 85), (15, 87);
 
--- Especial Joyería con Productos de Joyas del Sol
-(24, 7), (24, 8), (24, 9),
-
--- Vuelta al Cole 2025 con Productos de Librería Atenas
-(25, 19), (25, 20), (25, 21);
-
-select count(*) from Promocion;
+SELECT
+    p.nombre AS nombre_promocion,
+    p.porcentaje_descuento,
+    pr.nombre AS nombre_producto,
+    pr.precio AS precio_original
+FROM
+    Promocion AS p
+JOIN
+    PromocionXProducto AS pxp ON p.id_promocion = pxp.id_promocion
+JOIN
+    Producto AS pr ON pxp.id_producto = pr.id_producto
+ORDER BY
+    nombre_promocion, nombre_producto;
