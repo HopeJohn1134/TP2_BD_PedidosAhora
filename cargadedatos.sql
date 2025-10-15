@@ -753,3 +753,94 @@ INSERT INTO ProductoXPedido (id_producto, id_pedido, cantidad, precio_unitario) 
 -- Pedido 70
 (1,70,1,150.00),(2,70,2,200.00);
 
+
+INSERT INTO Promocion (nombre, porcentaje_descuento, fecha_inicio, fecha_final) VALUES
+('Promo Hamburguesas', 25, '2025-10-10 00:00:00', '2025-10-20 23:59:59'),
+('Especial Cafetería', 15, '2025-10-01 00:00:00', '2025-10-31 23:59:59'),
+('Happy Hour Bebidas', 30, '2025-10-13 18:00:00', '2025-10-19 21:00:00'),
+('Semana de la Milanesa', 20, '2025-10-11 00:00:00', '2025-10-21 23:59:59'),
+('Cuidado Personal', 10, '2025-10-01 00:00:00', '2025-10-31 23:59:59'),
+('Todo para tu Mascota', 15, '2025-10-10 00:00:00', '2025-11-10 23:59:59'),
+('Renueva tu Hogar', 10, '2025-10-05 00:00:00', '2025-10-25 23:59:59'),
+('Fin de Semana de Helados', 20, '2025-10-17 00:00:00', '2025-10-19 23:59:59'),
+('Promo Carnicería', 10, '2025-10-15 00:00:00', '2025-10-22 23:59:59'),
+('Frescura de Estación', 15, '2025-10-15 00:00:00', '2025-10-20 23:59:59'),
+('Combos Suplementos', 20, '2025-10-01 00:00:00', '2025-10-31 23:59:59'),
+('Aniversario Bistró Palermo', 25, '2025-10-10 00:00:00', '2025-10-18 23:59:59'),
+('Noche de Tragos', 25, '2025-10-16 20:00:00', '2025-10-19 02:00:00'),
+('Oferta Express', 15, '2025-10-15 12:00:00', '2025-10-20 15:00:00'),
+('Especial Joyería', 10, '2025-10-10 00:00:00', '2025-10-24 23:59:59'),
+
+-- Promociones pasadas
+('Vuelta al Cole 2025', 20, '2025-02-20 00:00:00', '2025-03-10 23:59:59'),
+('Día de la Madre 2025', 25, '2025-10-05 00:00:00', '2025-10-12 23:59:59'),
+('Promo San Valentín', 30, '2025-02-13 00:00:00', '2025-02-15 23:59:59'),
+('Liquidación de Verano', 35, '2025-03-01 00:00:00', '2025-03-20 23:59:59'),
+('Flash Sale Electrónica', 20, '2025-09-05 10:00:00', '2025-09-05 18:00:00'),
+('Día del Padre', 25, '2025-06-10 00:00:00', '2025-06-17 23:59:59'),
+('Promo Invierno Ropa', 25, '2025-07-01 00:00:00', '2025-07-31 23:59:59'),
+('Día del Amigo', 30, '2025-07-19 00:00:00', '2025-07-21 23:59:59'),
+('Adelanto Navidad', 15, '2024-12-01 00:00:00', '2024-12-15 23:59:59'),
+('Promo Verano 2026', 10, '2025-01-10 00:00:00', '2025-01-20 23:59:59'),
+
+-- Promociones futuras
+('Black Friday Tech', 30, '2025-11-28 00:00:00', '2025-11-30 23:59:59'),
+('Cyber Monday Moda', 35, '2025-12-01 00:00:00', '2025-12-01 23:59:59'),
+('Especial Navidad', 20, '2025-12-15 00:00:00', '2025-12-24 23:59:59'),
+('Reyes Magos', 15, '2026-01-02 00:00:00', '2026-01-06 23:59:59'),
+('Anticipo Escolar 2026', 15, '2026-02-01 00:00:00', '2026-02-15 23:59:59'),
+('Cyber Week Tech', 15, '2025-11-20 00:00:00', '2025-11-27 23:59:59'),
+('Festival de la Pizza', 20, '2025-12-10 00:00:00', '2025-12-20 23:59:59'),
+('Desayuno Feliz', 10, '2025-11-01 00:00:00', '2025-11-30 23:59:59'),
+('20% en Farmacia', 20, '2025-10-28 00:00:00', '2025-11-22 23:59:59');
+
+
+
+
+INSERT INTO PromocionXProducto (id_promocion, id_producto) VALUES
+-- Promo Hamburguesas con Productos de Burger House
+(9, 34), (9, 35), (9, 36),
+
+-- Especial Cafetería con Productos de cafeterías
+(10, 28), (10, 30), (10, 82), (10, 83),
+
+-- Happy Hour Bebidas con bebidas de Bar La Esquina
+(11, 49), (11, 51),
+
+-- Semana de la Milanesa con milanesas de Speedy Food y Comida Express
+(12, 43), (12, 86),
+
+-- Cuidado Personal con Productos de Belleza Natural y Aromas & Perfumes
+(13, 61), (13, 62), (13, 63), (13, 64), (13, 65), (13, 66),
+
+-- Todo para tu Mascota con Productos de Mundo Mascotas
+(14, 13), (14, 14), (14, 15),
+
+-- Renueva tu Hogar con Productos de Ferretería Central
+(15, 16), (15, 17), (15, 18),
+
+-- Fin de Semana de Helados con Productos de Helados Polar
+(16, 40), (16, 41), (16, 42),
+
+-- Promo Carnicería con Productos de Carnes Premium
+(17, 55), (17, 56), (17, 57),
+
+-- Frescura de Estación con Productos de Verduras Frescas
+(18, 58), (18, 59), (18, 60),
+
+-- Combos Suplementos con suplementos de Suplementos ProLife
+(19, 73), (19, 74), (19, 75),
+
+-- Aniversario Bistró Palermo con Productos del Bistró
+(20, 25), (20, 26), (20, 27),
+
+-- Oferta Express con Productos de Comida Express
+(23, 85), (23, 87),
+
+-- Especial Joyería con Productos de Joyas del Sol
+(24, 7), (24, 8), (24, 9),
+
+-- Vuelta al Cole 2025 con Productos de Librería Atenas
+(25, 19), (25, 20), (25, 21);
+
+select count(*) from Promocion;
