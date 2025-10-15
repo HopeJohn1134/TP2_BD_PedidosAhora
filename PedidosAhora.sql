@@ -85,7 +85,8 @@ CREATE TABLE Usuario (
     fecha_baja TIMESTAMP DEFAULT NULL,
     eliminado BOOLEAN DEFAULT FALSE,
     CHECK (correo_electronico LIKE '%_@_%._%'),
-    CHECK (telefono REGEXP '^[0-9]{7,20}$')
+    CHECK (telefono REGEXP '^[0-9]{7,20}$'),
+    INDEX idx_usuario_activo (id_usuario, eliminado)
 );
 
 CREATE TABLE EstadoDelPedido (
