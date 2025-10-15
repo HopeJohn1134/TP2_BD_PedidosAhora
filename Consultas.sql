@@ -9,4 +9,4 @@ SELECT * FROM Pedido WHERE id_usuario = ? ORDER BY fecha_pedido DESC;
 SELECT * FROM Repartidor WHERE id_transporte = ? AND eliminado = FALSE;
 -- consulta de promociones activa
 SELECT * FROM Promocion WHERE NOW() BETWEEN fecha_inicio AND fecha_final AND eliminado = FALSE;
---
+
