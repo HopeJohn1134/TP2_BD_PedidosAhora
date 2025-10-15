@@ -1,3 +1,4 @@
+USE PedidosAhora;
 -- consultas de los indices
 -- consulta comercios por categoria
 SELECT * FROM Comercio WHERE id_categoria = ? AND eliminado = FALSE;
@@ -11,70 +12,67 @@ SELECT * FROM Repartidor WHERE id_transporte = ? AND eliminado = FALSE;
 SELECT * FROM Promocion WHERE NOW() BETWEEN fecha_inicio AND fecha_final AND eliminado = FALSE;
 
 
--- 1) 10 comercios con mas valoracion
-SELECT
+-- 1) 10 comercios con mas valoracion(por valoracion)
+SELECT 
     C.nombre AS NombreComercio,
     CC.categoria AS Categoria,
     TRUNCATE(AVG(V.puntuacion_comercio), 2) AS PuntuacionPromedio
 FROM
     Comercio C
-JOIN
+        JOIN
     CategoriaComercio CC ON C.id_categoria = CC.id_categoria
-JOIN
+        JOIN
     Pedido P ON C.id_comercio = P.id_comercio
-JOIN
+        JOIN
     Valoracion V ON P.id_pedido = V.id_pedido
+		JOIN
+    IdComercio idC ON C.id_comercio = idC.id_comercio
 WHERE
     C.eliminado = FALSE
-GROUP BY
-    C.id_comercio, C.nombre, CC.categoria
-HAVING
-    AVG(V.puntuacion_comercio) >= ( -- Subconsulta para filtrar por un promedio mínimo aceptable (ej: 4.0)
-        SELECT AVG(puntuacion_comercio) FROM Valoracion
-    )
-ORDER BY
-    PuntuacionPromedio DESC
+GROUP BY C.id_comercio , C.nombre , CC.categoria
+HAVING AVG(V.puntuacion_comercio) >= (SELECT 
+        AVG(puntuacion_comercio)
+    FROM
+        Valoracion)
+ORDER BY PuntuacionPromedio DESC
 LIMIT 10;
 
 -- 2) Productos que tienen promociones activas ordenados por valor del descuento
-SELECT
+SELECT 
     PR.nombre AS NombreProducto,
     PR.precio AS PrecioOriginal,
     PO.nombre AS NombrePromocion,
     PO.porcentaje_descuento AS Descuento
 FROM
     Producto PR
-JOIN
+        JOIN
     PromocionXProducto PP ON PR.id_producto = PP.id_producto
-JOIN
+        JOIN
     Promocion PO ON PP.id_promocion = PO.id_promocion
 WHERE
     PR.eliminado = FALSE
-    AND PP.eliminado = FALSE
-    AND PO.eliminado = FALSE
-    AND NOW() BETWEEN PO.fecha_inicio AND PO.fecha_final -- Condición Lógica de fecha
-ORDER BY
-    Descuento DESC;
+        AND PP.eliminado = FALSE
+        AND PO.eliminado = FALSE
+        AND NOW() BETWEEN PO.fecha_inicio AND PO.fecha_final
+ORDER BY Descuento DESC
 
 -- 3) Cantidad Total de Productos Vendidos por Categoría de Comercio
-SELECT
+SELECT 
     CC.categoria AS CategoriaComercio,
     SUM(PXP.cantidad) AS TotalUnidadesVendidas
 FROM
     CategoriaComercio CC
-JOIN
+        JOIN
     Comercio C ON CC.id_categoria = C.id_categoria
-JOIN
+        JOIN
     Pedido P ON C.id_comercio = P.id_comercio
-JOIN
+        JOIN
     ProductoXPedido PXP ON P.id_pedido = PXP.id_pedido
 WHERE
     CC.eliminado = FALSE
-    AND C.eliminado = FALSE
-GROUP BY
-    CC.categoria
-ORDER BY
-    TotalUnidadesVendidas DESC;
+        AND C.eliminado = FALSE
+GROUP BY CC.categoria
+ORDER BY TotalUnidadesVendidas DESC
 
 -- 4) Repartidores con una puntuación promedio superior a 4 estrellas
 
@@ -214,9 +212,6 @@ GROUP BY
 ORDER BY
     ProductosAsociados DESC
 LIMIT 5;
-
-
-
 
 
 
