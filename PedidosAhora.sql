@@ -1,3 +1,4 @@
+
 CREATE DATABASE PedidosAhora;
 
 USE PedidosAhora;
@@ -23,8 +24,8 @@ CREATE TABLE Repartidor (
     apellido VARCHAR(50) NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_baja TIMESTAMP DEFAULT NULL,
-    id_transporte INT UNSIGNED NOT NULL,
     eliminado BOOLEAN DEFAULT FALSE,
+    id_transporte INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_transporte)
         REFERENCES MedioDeTransporte (id_transporte),
 	INDEX idx_repartidor_transporte_activo (id_transporte, eliminado)
@@ -32,9 +33,9 @@ CREATE TABLE Repartidor (
 
 CREATE TABLE HorarioXRepartidor (
     id_horarioxrepartidor INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    eliminado BOOLEAN DEFAULT FALSE,
     id_horario INT UNSIGNED NOT NULL,
     id_repartidor INT UNSIGNED NOT NULL,
-    eliminado BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id_horario)
         REFERENCES Horario (id_horario),
     FOREIGN KEY (id_repartidor)
@@ -55,8 +56,8 @@ CREATE TABLE Comercio (
     telefono VARCHAR(20) NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_baja TIMESTAMP DEFAULT NULL,
-    id_categoria INT UNSIGNED NOT NULL,
     eliminado BOOLEAN DEFAULT FALSE,
+    id_categoria INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_categoria)
         REFERENCES CategoriaComercio (id_categoria),
     CHECK (telefono REGEXP '^[0-9]{7,20}$'),
@@ -65,9 +66,9 @@ CREATE TABLE Comercio (
 
 CREATE TABLE HorarioXComercio (
     id_horarioxcomercio INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    eliminado BOOLEAN DEFAULT FALSE,
     id_horario INT UNSIGNED NOT NULL,
     id_comercio INT UNSIGNED NOT NULL,
-    eliminado BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id_horario)
         REFERENCES Horario (id_horario),
     FOREIGN KEY (id_comercio)
@@ -115,17 +116,17 @@ CREATE TABLE Pedido (
 
 CREATE TABLE Valoracion (
     id_valoracion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    id_pedido INT UNSIGNED NOT NULL,
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     comentario_comercio TEXT DEFAULT NULL,
     puntuacion_comercio TINYINT UNSIGNED NOT NULL,
     comentario_repartidor TEXT DEFAULT NULL,
     puntuacion_repartidor TINYINT UNSIGNED NOT NULL,
     eliminado BOOLEAN DEFAULT FALSE,
-    CHECK (puntuacion_comercio BETWEEN 1 AND 5),
-    CHECK (puntuacion_repartidor BETWEEN 1 AND 5),
+    id_pedido INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_pedido)
-        REFERENCES Pedido (id_pedido)
+        REFERENCES Pedido (id_pedido),
+    CHECK (puntuacion_comercio BETWEEN 1 AND 5),
+    CHECK (puntuacion_repartidor BETWEEN 1 AND 5)
 );
 
 CREATE TABLE Producto (
@@ -134,8 +135,8 @@ CREATE TABLE Producto (
     nombre VARCHAR(100) NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_baja TIMESTAMP DEFAULT NULL,
-    id_comercio INT UNSIGNED NOT NULL,
     eliminado BOOLEAN DEFAULT FALSE,
+    id_comercio INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_comercio) REFERENCES Comercio (id_comercio),
 	INDEX idx_producto_comercio_activo (id_comercio, eliminado)
 );
@@ -174,10 +175,10 @@ CREATE TABLE Promocion (
 
 CREATE TABLE ProductoXPedido (
     id_productoxpedido INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    id_producto INT UNSIGNED NOT NULL,
-    id_pedido INT UNSIGNED NOT NULL,
     cantidad SMALLINT UNSIGNED NOT NULL,
     precio_unitario DECIMAL(12 , 2 ) UNSIGNED NOT NULL,
+    id_producto INT UNSIGNED NOT NULL,
+    id_pedido INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_producto)
         REFERENCES Producto (id_producto),
     FOREIGN KEY (id_pedido)
@@ -186,9 +187,9 @@ CREATE TABLE ProductoXPedido (
 
 CREATE TABLE PromocionXProducto (
     id_promocionxproducto INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    eliminado BOOLEAN DEFAULT FALSE,
     id_promocion INT UNSIGNED NOT NULL,
     id_producto INT UNSIGNED NOT NULL,
-    eliminado BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id_promocion)
         REFERENCES Promocion (id_promocion),
     FOREIGN KEY (id_producto)
