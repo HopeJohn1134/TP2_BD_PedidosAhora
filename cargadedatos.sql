@@ -1,5 +1,5 @@
 use PedidosAhora;
-
+-- horarios repartidores
 insert into Horario (dia_de_semana, hora_entrada, hora_salida) values
 ('LUNES', '09:00:00', '18:00:00'),
 ('LUNES', '08:00:00', '12:00:00'),
@@ -22,6 +22,36 @@ insert into Horario (dia_de_semana, hora_entrada, hora_salida) values
 ('DOMINGO', '09:00:00', '18:00:00'),
 ('DOMINGO', '08:00:00', '12:00:00'),
 ('DOMINGO', '16:00:00', '20:00:00');
+
+-- Alimentos y Bebidas: almuerzo y cena
+INSERT INTO Horario (dia_de_semana, hora_entrada, hora_salida) VALUES
+('LUNES','11:00:00','15:00:00'),
+('LUNES','19:00:00','24:00:00'),
+('MARTES','11:00:00','15:00:00'),
+('MARTES','19:00:00','24:00:00'),
+('MIERCOLES','11:00:00','15:00:00'),
+('MIERCOLES','19:00:00','24:00:00'),
+('JUEVES','11:00:00','15:00:00'),
+('JUEVES','19:00:00','24:00:00'),
+('VIERNES','11:00:00','15:00:00'),
+('VIERNES','19:00:00','24:00:00'),
+('SABADO','11:00:00','15:00:00'),
+('SABADO','19:00:00','24:00:00'),
+('DOMINGO','11:00:00','15:00:00'),
+('DOMINGO','19:00:00','24:00:00');
+
+-- Belleza y Salud: mixto
+INSERT INTO Horario (dia_de_semana, hora_entrada, hora_salida) VALUES
+('LUNES','08:00:00','12:00:00'),
+('LUNES','16:00:00','20:00:00'),
+('MARTES','08:00:00','12:00:00'),
+('MARTES','16:00:00','20:00:00'),
+('MIERCOLES','08:00:00','12:00:00'),
+('MIERCOLES','16:00:00','20:00:00'),
+('JUEVES','08:00:00','12:00:00'),
+('JUEVES','16:00:00','20:00:00'),
+('VIERNES','08:00:00','12:00:00'),
+('VIERNES','16:00:00','20:00:00');
 
 insert into MedioDeTransporte (tipo) values
 ('AUTO'),
@@ -133,19 +163,6 @@ INSERT INTO CategoriaComercio (categoria) VALUES
 ('Tienda suplementos');
 
 
-CREATE TABLE Comercio (
-    id_comercio INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    direccion VARCHAR(100) NOT NULL,
-    nombre VARCHAR(50) NOT NULL,
-    telefono VARCHAR(20) NOT NULL,
-    fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fecha_baja TIMESTAMP DEFAULT NULL,
-    id_categoria INT UNSIGNED NOT NULL,
-    FOREIGN KEY (id_categoria)
-        REFERENCES CategoriaComercio (id_categoria),
-    CHECK (telefono REGEXP '^[0-9]{7,20}$')
-);
-
 INSERT INTO Comercio (direccion, nombre, telefono, id_categoria) VALUES
 ('Av. Corrientes 1234', 'Moda Urbana', '1134582390', 1),
 ('Calle San Martín 456', 'Zapatería El Paso', '1129471820', 2),
@@ -177,6 +194,22 @@ INSERT INTO Comercio (direccion, nombre, telefono, id_categoria) VALUES
 ('Calle Moreno 999', 'Café del Parque', '1152346789', 10),
 ('Av. Triunvirato 1456', 'Comida Express', '1134567123', 15),
 ('Calle Luro 2250', 'Pizza & Más', '1145876923', 16);
+
+-- Retail / Tiendas en horario corrido 09:00-18:00
+INSERT INTO HorarioXComercio (id_horario, id_comercio) VALUES
+(1,1),(4,2),(7,3),(10,4),(13,5),(16,6),(19,7),(22,8),
+(1,25),(4,26),(7,27),(10,28),(13,29),(16,30);
+
+-- Alimentos / Bebidas en horarios almuerzo 11:00-15:00 y cena 19:00-24:00
+INSERT INTO HorarioXComercio (id_horario, id_comercio) VALUES
+(23,9),(24,9),(25,10),(26,10),(27,11),(28,11),(29,12),(30,12),
+(31,13),(32,13),(33,14),(34,14),(35,15),(36,15),(23,16),(24,16),
+(25,17),(26,17),(27,18),(28,18),(29,19),(30,19),(31,20),(32,20);
+
+-- Belleza / Salud en horarios mixtos
+INSERT INTO HorarioXComercio (id_horario, id_comercio) VALUES
+(36,21),(37,21),(38,22),(39,22),(40,23),(41,23),(42,24),(43,24);
+);
 
 INSERT INTO EstadoDelPedido (tipo) VALUES
 ('PENDIENTE'),
@@ -343,5 +376,186 @@ VALUES
 (67, 'Cancelado por error, todo bien.', 3, 'Comprensivo.', 4),
 (68, 'No lo volvería a pedir.', 1, 'Mala experiencia.', 1);
 
+
+-- PRODUCTOS, 3 por cada comercio.
+-- Comercio 1: Moda Urbana
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(1500, 'Remera básica', 1),
+(2500, 'Jean clásico', 1),
+(3500, 'Campera de invierno', 1);
+
+-- Comercio 2: Zapatería El Paso
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(3000, 'Zapatillas deportivas', 2),
+(4500, 'Botas de cuero', 2),
+(2000, 'Sandalias verano', 2);
+
+-- Comercio 3: Joyas del Sol
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(12000, 'Anillo de plata', 3),
+(25000, 'Collar de oro', 3),
+(8000, 'Pulsera elegante', 3);
+
+-- Comercio 4: ElectroSmart
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(45000, 'Smartphone X', 4),
+(25000, 'Auriculares Bluetooth', 4),
+(60000, 'Tablet Pro', 4);
+
+-- Comercio 5: Mundo Mascotas
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(1200, 'Alimento para perros', 5),
+(800, 'Juguete para gatos', 5),
+(500, 'Cama para mascotas', 5);
+
+-- Comercio 6: Ferretería Central
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(50, 'Clavos 1kg', 6),
+(70, 'Tornillos 1kg', 6),
+(100, 'Tuercas y arandelas 1kg', 6);
+
+-- Comercio 7: Librería Atenas
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(500, 'Cuaderno A4', 7),
+(200, 'Bolígrafo azul', 7),
+(800, 'Agenda 2026', 7);
+
+-- Comercio 8: Detalles & Regalos
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(1500, 'Set de velas aromáticas', 8),
+(800, 'Taza personalizada', 8),
+(1200, 'Marco de fotos', 8);
+
+-- Comercio 9: Bistró Palermo
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(1200, 'Ensalada César', 9),
+(2500, 'Lomo a la plancha', 9),
+(800, 'Postre del día', 9);
+
+-- Comercio 10: Café Aroma
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(500, 'Café espresso', 10),
+(400, 'Té verde', 10),
+(350, 'Medialuna', 10);
+
+-- Comercio 11: Panadería La Espiga
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(200, 'Pan francés', 11),
+(350, 'Medialuna de manteca', 11),
+(400, 'Budín casero', 11);
+
+-- Comercio 12: Burger House
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(1500, 'Hamburguesa clásica', 12),
+(1800, 'Hamburguesa doble', 12),
+(700, 'Papas fritas', 12);
+
+-- Comercio 13: Pastelería Dulce Vida
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(500, 'Tarta de frutas', 13),
+(350, 'Alfajor de maicena', 13),
+(450, 'Brownie', 13);
+
+-- Comercio 14: Helados Polar
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(350, 'Helado de chocolate', 14),
+(350, 'Helado de vainilla', 14),
+(400, 'Sundae especial', 14);
+
+-- Comercio 15: Speedy Food
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(1200, 'Milanesa con guarnición', 15),
+(1500, 'Pizza chica', 15),
+(500, 'Bebida 500ml', 15);
+
+-- Comercio 16: Pizzería Don Nápoli
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(2500, 'Pizza Napolitana', 16),
+(2800, 'Pizza de muzzarella', 16),
+(3000, 'Pizza especial', 16);
+
+-- Comercio 17: Bar La Esquina
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(800, 'Cerveza artesanal', 17),
+(1500, 'Picada mixta', 17),
+(600, 'Trago clásico', 17);
+
+-- Comercio 18: Supermercado Central
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(120, 'Leche 1L', 18),
+(200, 'Pan de molde', 18),
+(80, 'Huevos docena', 18);
+
+-- Comercio 19: Carnes Premium
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(1200, 'Bife de chorizo', 19),
+(900, 'Milanesa de carne', 19),
+(700, 'Chorizo parrillero', 19);
+
+-- Comercio 20: Verduras Frescas
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(300, 'Lechuga', 20),
+(200, 'Tomate x kg', 20),
+(250, 'Zapallo', 20);
+
+-- Comercio 21: Belleza Natural
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(1200, 'Crema hidratante', 21),
+(800, 'Shampoo nutritivo', 21),
+(500, 'Jabón facial', 21);
+
+-- Comercio 22: Aromas & Perfumes
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(3500, 'Perfume floral', 22),
+(3000, 'Perfume amaderado', 22),
+(1500, 'Body lotion', 22);
+
+-- Comercio 23: Farmacia Salud
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(400, 'Ibuprofeno x 20', 23),
+(600, 'Paracetamol x 20', 23),
+(1200, 'Vitamina C 500mg', 23);
+
+-- Comercio 24: Óptica VisionPlus
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(3500, 'Lentes de sol', 24),
+(6000, 'Lentes graduados', 24),
+(1500, 'Estuche para lentes', 24);
+
+-- Comercio 25: Suplementos ProLife
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(1500, 'Proteína en polvo', 25),
+(1200, 'Creatina', 25),
+(800, 'Aminoácidos', 25);
+
+-- Comercio 26: Look Fashion
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(2000, 'Remera estampada', 26),
+(3500, 'Jean skinny', 26),
+(4000, 'Campera de cuero', 26);
+
+-- Comercio 27: TecnoMundo
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(55000, 'Laptop X', 27),
+(25000, 'Tablet Android', 27),
+(18000, 'Auriculares Gaming', 27);
+
+-- Comercio 28: Café del Parque
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(400, 'Café latte', 28),
+(350, 'Medialuna', 28),
+(500, 'Té chai', 28);
+
+-- Comercio 29: Comida Express
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(1200, 'Empanadas surtidas', 29),
+(1500, 'Milanesa con guarnición', 29),
+(500, 'Bebida 500ml', 29);
+
+-- Comercio 30: Pizza & Más
+INSERT INTO Producto (precio, nombre, id_comercio) VALUES
+(2800, 'Pizza cuatro quesos', 30),
+(3000, 'Pizza napolitana', 30),
+(3200, 'Pizza especial', 30);
 
 
