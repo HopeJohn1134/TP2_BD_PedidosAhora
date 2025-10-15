@@ -100,7 +100,7 @@ CREATE TABLE Pedido (
     fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_comercio INT UNSIGNED NOT NULL,
     id_usuario INT UNSIGNED NOT NULL,
-    id_repartidor INT UNSIGNED NOT NULL,
+    id_repartidor INT UNSIGNED,
     id_estado INT UNSIGNED NOT NULL,
     FOREIGN KEY (id_estado)
         REFERENCES EstadoDelPedido (id_estado),

@@ -334,8 +334,7 @@ INSERT INTO Pedido (domicilio, id_comercio, id_usuario, id_repartidor, id_estado
 ('Av. Mitre 360, Bahía Blanca', 27, 4, 10, 7),
 ('Calle Independencia 800, Mar del Plata', 28, 5, 11, 7);
 
-INSERT INTO Valoracion (id_pedido, comentario_comercio, puntuacion_comercio, comentario_repartidor, puntuacion_repartidor)
-VALUES
+INSERT INTO Valoracion (id_pedido, comentario_comercio, puntuacion_comercio, comentario_repartidor, puntuacion_repartidor) VALUES
 (31, 'Excelente servicio, todo llegó caliente.', 5, 'Muy amable y puntual.', 5),
 (32, 'Buena atención del comercio.', 4, 'Rápido y atento.', 5),
 (33, 'Un poco demorado, pero llegó bien.', 3, 'Cumplió con la entrega.', 4),
@@ -753,5 +752,4 @@ INSERT INTO ProductoXPedido (id_producto, id_pedido, cantidad, precio_unitario) 
 (37,69,1,250.00),(38,69,2,300.00),
 -- Pedido 70
 (1,70,1,150.00),(2,70,2,200.00);
-
 
