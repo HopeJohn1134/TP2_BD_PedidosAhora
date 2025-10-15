@@ -837,16 +837,3 @@ INSERT INTO PromocionXProducto (id_promocion, id_producto) VALUES
 -- Oferta Express con Productos de Comida Express
 (15, 85), (15, 87);
 
-SELECT
-    p.nombre AS nombre_promocion,
-    p.porcentaje_descuento,
-    pr.nombre AS nombre_producto,
-    pr.precio AS precio_original
-FROM
-    Promocion AS p
-JOIN
-    PromocionXProducto AS pxp ON p.id_promocion = pxp.id_promocion
-JOIN
-    Producto AS pr ON pxp.id_producto = pr.id_producto
-ORDER BY
-    nombre_promocion, nombre_producto;
