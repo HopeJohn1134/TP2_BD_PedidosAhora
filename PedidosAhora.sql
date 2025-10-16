@@ -9,7 +9,7 @@ CREATE TABLE Horario (
     hora_inicio TIME,
     hora_fin TIME,
     eliminado BOOLEAN DEFAULT FALSE,
-    CHECK (hora_entrada < hora_salida)
+    CHECK (hora_inicio < hora_fin)
 );
 
 CREATE TABLE MedioDeTransporte (
