@@ -182,37 +182,48 @@ LIMIT 5;
 -- 9) medios de pago mas usado (cantidad de pagos hechos mayor a menor)
 SELECT
     MP.nombre AS MedioDePago,
-    COUNT(PG.id_pago) AS TotalUsos
-FROM
-    MedioDePago MP
-JOIN
-    Pago PG ON MP.id_medio_pago = PG.id_medio
-WHERE
-    MP.eliminado = FALSE
-GROUP BY
-    MP.id_medio_pago, MP.nombre
-ORDER BY
-    TotalUsos DESC;
+    COUNT(PG.id_pago) AS TotalUsos,
+    ROUND(
+        COUNT(PG.id_pago) / 
+        (SELECT COUNT(*) FROM Pago) * 100, 2
+    ) AS PorcentajeUso
+FROM MedioDePago MP
+LEFT JOIN Pago PG ON MP.id_medio_pago = PG.id_medio
+GROUP BY MP.id_medio_pago, MP.nombre
+ORDER BY TotalUsos DESC;
 
 -- 10) 5 promociones que mas se usaron (activa e inactivas)
-SELECT
-    PO.nombre AS NombrePromocion,
-    PO.porcentaje_descuento AS Descuento,
-    PO.fecha_inicio,
-    PO.fecha_final,
-    COUNT(PP.id_producto) AS ProductosAsociados
+SELECT 
+    C.id_comercio,
+    C.nombre,
+    SUM(PXP.cantidad * PXP.precio_unitario) AS TotalVendido
 FROM
-    Promocion PO
+    Comercio C
 JOIN
-    PromocionXProducto PP ON PO.id_promocion = PP.id_promocion
+    Pedido P ON C.id_comercio = P.id_comercio
+JOIN
+    ProductoXPedido PXP ON P.id_pedido = PXP.id_pedido
 WHERE
-    PO.eliminado = FALSE
-    AND PP.eliminado = FALSE
+    C.eliminado = FALSE
 GROUP BY
-    PO.id_promocion, PO.nombre, PO.porcentaje_descuento, PO.fecha_inicio, PO.fecha_final
-ORDER BY
-    ProductosAsociados DESC
-LIMIT 5;
+    C.id_comercio, C.nombre
+HAVING
+    TotalVendido > (
+        SELECT AVG(TotalPorComercio)
+        FROM (
+            SELECT 
+                SUM(PXP2.cantidad * PXP2.precio_unitario) AS TotalPorComercio
+            FROM 
+                Pedido P2
+            JOIN 
+                ProductoXPedido PXP2 ON P2.id_pedido = PXP2.id_pedido
+            GROUP BY 
+                P2.id_comercio
+        ) AS Subconsulta
+    )
+ORDER BY 
+    TotalVendido DESC;
+
 
 
 
