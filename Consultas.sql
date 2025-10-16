@@ -119,8 +119,8 @@ SELECT
     C.nombre AS NombreComercio,
     C.direccion,
     H.dia_de_semana,
-    H.hora_entrada,
-    H.hora_salida
+    H.hora_inicio,
+    H.hora_fin
 FROM
     Comercio C
 JOIN
@@ -132,7 +132,7 @@ WHERE
     AND HC.eliminado = FALSE
     AND H.eliminado = FALSE
     AND H.dia_de_semana = UPPER(DAYNAME(NOW()))
-    AND TIME(NOW()) BETWEEN H.hora_entrada AND H.hora_salida 
+    AND TIME(NOW()) BETWEEN H.hora_inicio AND H.hora_fin 
 ORDER BY
     C.nombre;
 

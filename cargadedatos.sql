@@ -1,6 +1,6 @@
 use PedidosAhora;
 -- horarios repartidores
-insert into Horario (dia_de_semana, hora_entrada, hora_salida) values
+insert into Horario (dia_de_semana, hora_inicio, hora_fin) values
 ('LUNES', '09:00:00', '18:00:00'),
 ('LUNES', '08:00:00', '12:00:00'),
 ('LUNES', '16:00:00', '20:00:00'),
@@ -24,7 +24,7 @@ insert into Horario (dia_de_semana, hora_entrada, hora_salida) values
 ('DOMINGO', '16:00:00', '20:00:00');
 
 -- Alimentos y Bebidas: almuerzo y cena
-INSERT INTO Horario (dia_de_semana, hora_entrada, hora_salida) VALUES
+INSERT INTO Horario (dia_de_semana, hora_inicio, hora_fin) VALUES
 ('LUNES','11:00:00','15:00:00'),
 ('LUNES','19:00:00','24:00:00'),
 ('MARTES','11:00:00','15:00:00'),
@@ -41,7 +41,7 @@ INSERT INTO Horario (dia_de_semana, hora_entrada, hora_salida) VALUES
 ('DOMINGO','19:00:00','24:00:00');
 
 -- Belleza y Salud: mixto
-INSERT INTO Horario (dia_de_semana, hora_entrada, hora_salida) VALUES
+INSERT INTO Horario (dia_de_semana, hora_inicio, hora_fin) VALUES
 ('LUNES','08:00:00','12:00:00'),
 ('LUNES','16:00:00','20:00:00'),
 ('MARTES','08:00:00','12:00:00'),
