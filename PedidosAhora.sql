@@ -1,4 +1,4 @@
-
+DROP DATABASE IF EXISTS PedidosAhora;
 CREATE DATABASE PedidosAhora;
 
 USE PedidosAhora;
@@ -6,8 +6,8 @@ USE PedidosAhora;
 CREATE TABLE Horario (
     id_horario INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     dia_de_semana ENUM('LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'),
-    hora_entrada TIME,
-    hora_salida TIME,
+    hora_inicio TIME,
+    hora_fin TIME,
     eliminado BOOLEAN DEFAULT FALSE,
     CHECK (hora_entrada < hora_salida)
 );

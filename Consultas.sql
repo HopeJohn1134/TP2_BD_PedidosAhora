@@ -28,9 +28,6 @@ FROM
 WHERE
     C.eliminado = FALSE
 GROUP BY C.id_comercio , C.nombre , CC.categoria
-HAVING AVG(V.puntuacion_comercio) >= (
-SELECT AVG(puntuacion_comercio)
-    FROM Valoracion)
 ORDER BY PuntuacionPromedio DESC
 LIMIT 10;
 
@@ -115,7 +112,7 @@ ORDER BY
     P.id_pedido DESC;
     
 -- 6) comercios abiertos en el horario actual
-
+SET lc_time_names = 'es_ES';
 SELECT
     C.nombre AS NombreComercio,
     C.direccion,
@@ -132,8 +129,8 @@ WHERE
     C.eliminado = FALSE
     AND HC.eliminado = FALSE
     AND H.eliminado = FALSE
-    AND H.dia_de_semana = UPPER(DAYNAME(NOW())) -- Condición 1: Día de la semana actual (MySQL DAYNAME devuelve el nombre del día en inglés/español según la configuración)
-    AND TIME(NOW()) BETWEEN H.hora_entrada AND H.hora_salida -- Condición 2: Hora actual dentro del rango
+    AND H.dia_de_semana = UPPER(DAYNAME(NOW()))
+    AND TIME(NOW()) BETWEEN H.hora_entrada AND H.hora_salida 
 ORDER BY
     C.nombre;
 
