@@ -1,30 +1,29 @@
 USE PedidosAhora;
+
 -- consultas de los indices
--- consulta comercios por categoria
+-- index comercios
 SHOW INDEX FROM Comercio;
--- consulta productos por comercio
+-- index productos
 SHOW INDEX FROM Producto;
--- index usuario
+-- index usuarios
 SHOW INDEX FROM Usuario;
--- consulta repartidor por tipo transporte
+-- index repartidors
 SHOW INDEX FROM Repartidor;
--- consulta de promociones activa
+-- index de promociones
 SHOW INDEX FROM Promocion;
 
 
 -- 1) 10 comercios con mas valoracion(por valoracion)
-SELECT 
+SELECT
+	C.id_comercio AS IDComercio,
     C.nombre AS NombreComercio,
     CC.categoria AS Categoria,
     TRUNCATE(AVG(V.puntuacion_comercio), 2) AS PuntuacionPromedio
 FROM
     Comercio C
-        JOIN
-    CategoriaComercio CC ON C.id_categoria = CC.id_categoria
-        JOIN
-    Pedido P ON C.id_comercio = P.id_comercio
-        JOIN
-    Valoracion V ON P.id_pedido = V.id_pedido
+        JOIN CategoriaComercio CC ON C.id_categoria = CC.id_categoria
+        JOIN Pedido P ON C.id_comercio = P.id_comercio
+        JOIN Valoracion V ON P.id_pedido = V.id_pedido
 WHERE
     C.eliminado = FALSE
 GROUP BY C.id_comercio , C.nombre , CC.categoria
@@ -33,6 +32,7 @@ LIMIT 10;
 
 -- 2) Productos que tienen promociones activas ordenados por valor del descuento
 SELECT 
+	PR.id_producto AS IdProducto,
     PR.nombre AS NombreProducto,
     PR.precio AS PrecioOriginal,
     PO.nombre AS NombrePromocion,
@@ -49,6 +49,7 @@ WHERE
         AND PO.eliminado = FALSE
         AND NOW() BETWEEN PO.fecha_inicio AND PO.fecha_final
 ORDER BY Descuento DESC;
+
 
 -- 3) Cantidad Total de Productos Vendidos por Categoría de Comercio
 SELECT 
@@ -114,6 +115,7 @@ ORDER BY
 -- 6) comercios abiertos en el horario actual
 SET lc_time_names = 'es_ES';
 SELECT
+	C.id_comercio AS ID,
     C.nombre AS NombreComercio,
     C.direccion,
     H.dia_de_semana,
@@ -155,6 +157,7 @@ GROUP BY
     R.id_repartidor, R.nombre, R.apellido, MT.tipo
 ORDER BY
     CantidadPedidosEnRuta DESC;
+    
 -- 8) lista de los productos mas vendidos de las ultimas 24hs
 SELECT
     PR.nombre AS NombreProducto,
@@ -175,7 +178,8 @@ GROUP BY
 ORDER BY
     TotalUnidadesVendidas DESC
 LIMIT 5;
--- 9) medio de pago mas usado (cantidad de pagos hechos)
+
+-- 9) medios de pago mas usado (cantidad de pagos hechos mayor a menor)
 SELECT
     MP.nombre AS MedioDePago,
     COUNT(PG.id_pago) AS TotalUsos
@@ -188,9 +192,9 @@ WHERE
 GROUP BY
     MP.id_medio_pago, MP.nombre
 ORDER BY
-    TotalUsos DESC
-LIMIT 1;
--- 10) promociones que mas se usaron (activa e inactivas)
+    TotalUsos DESC;
+
+-- 10) 5 promociones que mas se usaron (activa e inactivas)
 SELECT
     PO.nombre AS NombrePromocion,
     PO.porcentaje_descuento AS Descuento,
