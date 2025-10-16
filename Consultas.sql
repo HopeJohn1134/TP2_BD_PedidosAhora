@@ -4,8 +4,8 @@ USE PedidosAhora;
 SHOW INDEX FROM Comercio;
 -- consulta productos por comercio
 SHOW INDEX FROM Producto;
--- consulta pedido por usuario
-SHOW INDEX FROM Pedido;
+-- index usuario
+SHOW INDEX FROM Usuario;
 -- consulta repartidor por tipo transporte
 SHOW INDEX FROM Repartidor;
 -- consulta de promociones activa
@@ -51,7 +51,7 @@ WHERE
         AND PP.eliminado = FALSE
         AND PO.eliminado = FALSE
         AND NOW() BETWEEN PO.fecha_inicio AND PO.fecha_final
-ORDER BY Descuento DESC
+ORDER BY Descuento DESC;
 
 -- 3) Cantidad Total de Productos Vendidos por Categoría de Comercio
 SELECT 
@@ -69,7 +69,7 @@ WHERE
     CC.eliminado = FALSE
         AND C.eliminado = FALSE
 GROUP BY CC.categoria
-ORDER BY TotalUnidadesVendidas DESC
+ORDER BY TotalUnidadesVendidas DESC;
 
 -- 4) Repartidores con una puntuación promedio superior a 4 estrellas
 
@@ -113,7 +113,9 @@ WHERE
     E.estado = 'CANCELADO' -- Asumiendo que existe un estado 'CANCELADO'
 ORDER BY
     P.id_pedido DESC;
+    
 -- 6) comercios abiertos en el horario actual
+
 SELECT
     C.nombre AS NombreComercio,
     C.direccion,
@@ -134,6 +136,7 @@ WHERE
     AND TIME(NOW()) BETWEEN H.hora_entrada AND H.hora_salida -- Condición 2: Hora actual dentro del rango
 ORDER BY
     C.nombre;
+
 -- 7) repartidores llevando un pedido (pedido con estado: EN_CAMINO)
 SELECT
     R.nombre AS NombreRepartidor,
