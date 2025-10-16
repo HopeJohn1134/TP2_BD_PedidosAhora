@@ -192,7 +192,7 @@ LEFT JOIN Pago PG ON MP.id_medio_pago = PG.id_medio
 GROUP BY MP.id_medio_pago, MP.nombre
 ORDER BY TotalUsos DESC;
 
--- 10) 5 promociones que mas se usaron (activa e inactivas)
+-- 10)
 SELECT 
     C.id_comercio,
     C.nombre,
