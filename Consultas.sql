@@ -25,15 +25,12 @@ FROM
     Pedido P ON C.id_comercio = P.id_comercio
         JOIN
     Valoracion V ON P.id_pedido = V.id_pedido
-		JOIN
-    IdComercio idC ON C.id_comercio = idC.id_comercio
 WHERE
     C.eliminado = FALSE
 GROUP BY C.id_comercio , C.nombre , CC.categoria
-HAVING AVG(V.puntuacion_comercio) >= (SELECT 
-        AVG(puntuacion_comercio)
-    FROM
-        Valoracion)
+HAVING AVG(V.puntuacion_comercio) >= (
+SELECT AVG(puntuacion_comercio)
+    FROM Valoracion)
 ORDER BY PuntuacionPromedio DESC
 LIMIT 10;
 
