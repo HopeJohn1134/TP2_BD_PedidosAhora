@@ -225,5 +225,51 @@ ORDER BY
     TotalVendido DESC;
 
 
+-- VISTA
+CREATE OR REPLACE VIEW VistaTopComerciosValorados AS
+SELECT
+    C.id_comercio AS IDComercio,
+    C.nombre AS NombreComercio,
+    CC.categoria AS Categoria,
+    TRUNCATE(AVG(V.puntuacion_comercio), 2) AS PuntuacionPromedio
+FROM
+    Comercio C
+        JOIN CategoriaComercio CC ON C.id_categoria = CC.id_categoria
+        JOIN Pedido P ON C.id_comercio = P.id_comercio
+        JOIN Valoracion V ON P.id_pedido = V.id_pedido
+WHERE
+    C.eliminado = FALSE
+GROUP BY
+    C.id_comercio, C.nombre, CC.categoria
+ORDER BY
+    PuntuacionPromedio DESC;
+    
+SELECT * FROM VistaTopComerciosValorados LIMIT 20;
+
+SELECT *
+FROM VistaTopComerciosValorados
+WHERE Categoria = 'Restaurante';
+
+SELECT *
+FROM VistaTopComerciosValorados
+WHERE Categoria = 'Cafetería';
+
+SELECT
+    CC.categoria AS CategoriaComercio,
+    COUNT(C.id_comercio) AS TotalComercios
+FROM
+    CategoriaComercio CC
+JOIN
+    Comercio C ON CC.id_categoria = C.id_categoria
+WHERE
+    CC.eliminado = FALSE
+    AND C.eliminado = FALSE
+GROUP BY
+    CC.categoria
+ORDER BY
+    TotalComercios DESC;
+
+
+
 
 
